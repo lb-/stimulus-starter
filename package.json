@@ -17,6 +17,7 @@
     "babel-loader": "^8.2.2",
     "chokidar": "^3.4.1",
     "express": "^4.17.1",
+    "jest": "^27.4.7",
     "webpack-dev-middleware": "^5.3.0",
     "webpack": "^5.35.1"
   },
