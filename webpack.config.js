@@ -17,6 +17,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        // exclude: [/\.test\.js$/, /node_modules/], // not here - see react.context usage in src/index.js
         exclude: [/node_modules/],
         use: [{ loader: 'babel-loader' }],
       },
