@@ -10,3 +10,13 @@ body {
 .c-bulk-actions.has-selection td:first-child {
   outline: 2px solid lightblue;
 }
+
+[data-cloak-target~='cloak'] {
+  /* demo - real code would be something like 'display: none;' */
+  background-color: black;
+}
+
+[data-cloak-target~='uncloak'] {
+  /* demo only - real code would not need this selector */
+  background-color: lightblue;
+}

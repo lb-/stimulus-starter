@@ -7,7 +7,7 @@
   </head>
   <body>
     <main>
-      <h1 data-controller="example"></h1>
+      <h1>Stimulus JS POC</h1>
       <section
         class="c-bulk-actions"
         id="bulk-actions-controller-demo"
@@ -105,6 +105,19 @@
             Delete
           </a>
           <div data-bulk-actions-target="label"></div>
+        </div>
+      </section>
+      <section data-controller="cloak">
+        <h2>Cloak controller</h2>
+        <div data-controller="example" data-cloak-target="cloak foo">
+          <strong>I am invisible until Stimulus loads</strong>
+        </div>
+        <div
+          data-controller="idea"
+          data-action="idea:ready->cloak#uncloak"
+          data-cloak-target="cloak wait"
+        >
+          Should wait 2s before showing
         </div>
       </section>
     </main>
