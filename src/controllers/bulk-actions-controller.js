@@ -5,7 +5,6 @@ import { Controller } from '@hotwired/stimulus';
  *
  * Missing functionality
  * - 'has other pages' logic for different translation (could be a value)
- * - Bulk action button handling (appending id to URL) - could isolate the button behaviour to a different controller?
  *
  * Added functionality
  * - Translation supports 0/1/2 or more pluralisation (via array) however should look at Locale instead
@@ -22,8 +21,13 @@ class BulkActionsController extends Controller {
     /** applies to the summary target when there is NO selection */
     'summaryHidden',
   ];
+
   static targets = ['allItems', 'item', 'label', 'summary', 'uncloak'];
-  static values = { labelTranslation: Array };
+
+  static values = {
+    labelTranslation: Array,
+    parentId: Number,
+  };
 
   connect() {
     this.updateTotalSelected();
@@ -71,6 +75,30 @@ class BulkActionsController extends Controller {
 
   toggleItem() {
     this.updateTotalSelected();
+  }
+
+  triggerAction(event) {
+    event.preventDefault();
+    const { isAllSelected } = this.getSelectedTotals();
+    const href = event.target.getAttribute('href');
+    const parentId = this.parentIdValue;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (isAllSelected) {
+      urlParams.append('id', 'all');
+      if (parentId) urlParams.append('childOf', parentId);
+    } else {
+      this.itemTargets.forEach((element) => {
+        urlParams.append('id', element.dataset.objectId);
+      });
+    }
+
+    console.log('action triggered', {
+      event,
+      urlParams: urlParams.toString(),
+      href,
+      parentId,
+    });
   }
 
   updateTotalSelected() {

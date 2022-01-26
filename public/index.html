@@ -14,6 +14,7 @@
         data-controller="bulk-actions"
         data-bulk-actions-has-selection-class="has-selection"
         data-bulk-actions-label-translation-value='["0 documents selected", "1 document selected", "{0} documents selected"]'
+        data-bulk-actions-parent-id-value="32"
         data-bulk-actions-summary-hidden-class="u-hidden"
       >
         <h2>Bulk Actions controller</h2>
@@ -39,6 +40,7 @@
                   type="checkbox"
                   data-action="bulk-actions#toggleItem"
                   data-bulk-actions-target="item"
+                  data-object-id="4"
                 />
               </td>
               <td>Uncheck guests</td>
@@ -50,6 +52,7 @@
                   type="checkbox"
                   data-action="bulk-actions#toggleItem"
                   data-bulk-actions-target="item"
+                  data-object-id="5"
                 />
               </td>
               <td>Contract (2022)</td>
@@ -61,6 +64,7 @@
                   type="checkbox"
                   data-action="bulk-actions#toggleItem"
                   data-bulk-actions-target="item"
+                  data-object-id="33"
                 />
               </td>
               <td>Conference Manual</td>
@@ -72,6 +76,7 @@
                   type="checkbox"
                   data-action="bulk-actions#toggleItem"
                   data-bulk-actions-target="item"
+                  data-object-id="7"
                 />
               </td>
               <td>Umbrella rain</td>
@@ -80,13 +85,25 @@
           </tbody>
         </table>
         <div style="display: none" data-bulk-actions-target="summary uncloak">
-          <div>
-            <input
-              type="checkbox"
-              data-action="bulk-actions#toggleAll"
-              data-bulk-actions-target="allItems"
-            />
-          </div>
+          <input
+            type="checkbox"
+            data-action="bulk-actions#toggleAll"
+            data-bulk-actions-target="allItems"
+          />
+          <a
+            class="button button-secondary button-small"
+            data-action="bulk-actions#triggerAction"
+            href="/admin/bulk/wagtaildocs/document/add_tags/?next=%2Fadmin%2Fdocuments%2F"
+          >
+            Tag
+          </a>
+          <a
+            class="button button-secondary button-small serious"
+            data-action="bulk-actions#triggerAction"
+            href="/admin/bulk/wagtaildocs/document/delete/"
+          >
+            Delete
+          </a>
           <div data-bulk-actions-target="label"></div>
         </div>
       </section>
