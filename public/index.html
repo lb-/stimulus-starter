@@ -6,6 +6,90 @@
     <script src="bundle.js" async></script>
   </head>
   <body>
-    <h1 data-controller="example"></h1>
+    <main>
+      <h1 data-controller="example"></h1>
+      <section
+        class="c-bulk-actions"
+        id="bulk-actions-controller-demo"
+        data-controller="bulk-actions"
+        data-bulk-actions-has-selection-class="has-selection"
+        data-bulk-actions-label-translation-value='["0 documents selected", "1 document selected", "{0} documents selected"]'
+        data-bulk-actions-summary-hidden-class="u-hidden"
+      >
+        <h2>Bulk Actions controller</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <input
+                  disabled
+                  type="checkbox"
+                  data-action="change->bulk-actions#toggleAll"
+                  data-bulk-actions-target="allItems uncloak"
+                />
+              </th>
+              <th>Title</th>
+              <th>File</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  type="checkbox"
+                  data-action="bulk-actions#toggleItem"
+                  data-bulk-actions-target="item"
+                />
+              </td>
+              <td>Uncheck guests</td>
+              <td>uncheck-guests.md</td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  type="checkbox"
+                  data-action="bulk-actions#toggleItem"
+                  data-bulk-actions-target="item"
+                />
+              </td>
+              <td>Contract (2022)</td>
+              <td>download-contract-.pdf</td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  type="checkbox"
+                  data-action="bulk-actions#toggleItem"
+                  data-bulk-actions-target="item"
+                />
+              </td>
+              <td>Conference Manual</td>
+              <td>conf-man-2022.docx</td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  type="checkbox"
+                  data-action="bulk-actions#toggleItem"
+                  data-bulk-actions-target="item"
+                />
+              </td>
+              <td>Umbrella rain</td>
+              <td>change-of.txt</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="display: none" data-bulk-actions-target="summary uncloak">
+          <div>
+            <input
+              type="checkbox"
+              data-action="bulk-actions#toggleAll"
+              data-bulk-actions-target="allItems"
+            />
+          </div>
+          <div data-bulk-actions-target="label"></div>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

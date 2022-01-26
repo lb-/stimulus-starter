@@ -1,3 +1,12 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 }
+
+.u-hidden {
+  /* using opacity for the sake of the demo - normally would be display: none; */
+  opacity: 0.2;
+}
+
+.c-bulk-actions.has-selection td:first-child {
+  outline: 2px solid lightblue;
+}
