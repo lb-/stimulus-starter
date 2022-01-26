@@ -17,6 +17,19 @@ $ yarn install
 $ yarn start
 ```
 
----
+## Notes
 
-© 2021 Basecamp, LLC.
+Some useful things
+
+## `this.identifier` - available on controller class instance
+
+- this will be the registered controller's identifier (used when registering)
+
+### `this.dispatch` - additional params
+
+- https://github.com/hotwired/stimulus/blob/main/src/core/controller.ts#L64
+- `target` - defaults to the controlled element but can be given anything that a dispatched event can be fired from (e.g. another element)
+- `prefix` - best not to override but good to know it can be done
+- `bubbles` - see MDN
+- `cancelable` - see MDN
+- Important - it returns the event, NOT the result of the dispatch (actually more useful but good to know if you want to handle preventDefault cases)
