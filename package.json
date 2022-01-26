@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.0.1",
-    "@hotwired/stimulus-webpack-helpers": "^1.0.0"
+    "@hotwired/stimulus-webpack-helpers": "^1.0.0",
+    "@wordpress/token-list": "^2.2.2"
   },
   "prettier": {
     "singleQuote": true
