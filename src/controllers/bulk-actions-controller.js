@@ -22,7 +22,14 @@ class BulkActionsController extends Controller {
     'summaryHidden',
   ];
 
-  static targets = ['allItems', 'item', 'label', 'summary', 'uncloak'];
+  static targets = [
+    'action',
+    'allItems',
+    'item',
+    'label',
+    'summary',
+    'uncloak',
+  ];
 
   static values = {
     labelTranslation: Array,
@@ -42,17 +49,6 @@ class BulkActionsController extends Controller {
     });
   }
 
-  getSelectedTotals() {
-    const totalSelected = this.itemTargets.reduce(
-      (total, element) => total + Number(element.checked),
-      0
-    );
-
-    const isAllSelected = totalSelected === this.itemTargets.length;
-
-    return { isAllSelected, totalSelected };
-  }
-
   getLabelTranslatedValue(totalSelected) {
     const labelTranslationValue = this.labelTranslationValue;
 
@@ -67,20 +63,19 @@ class BulkActionsController extends Controller {
     );
   }
 
-  toggleAll(event) {
-    const isChecked = event.target.checked;
-    this.itemTargets.forEach((element) => (element.checked = isChecked));
-    this.updateTotalSelected();
+  getSelectedTotals() {
+    const totalSelected = this.itemTargets.reduce(
+      (total, element) => total + Number(element.checked),
+      0
+    );
+
+    const isAllSelected = totalSelected === this.itemTargets.length;
+
+    return { isAllSelected, totalSelected };
   }
 
-  toggleItem() {
-    this.updateTotalSelected();
-  }
-
-  triggerAction(event) {
-    event.preventDefault();
+  getUrlParams() {
     const { isAllSelected } = this.getSelectedTotals();
-    const href = event.target.getAttribute('href');
     const parentId = this.parentIdValue;
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -89,16 +84,30 @@ class BulkActionsController extends Controller {
       if (parentId) urlParams.append('childOf', parentId);
     } else {
       this.itemTargets.forEach((element) => {
+        if (!element.checked) return;
         urlParams.append('id', element.dataset.objectId);
       });
     }
 
-    console.log('action triggered', {
-      event,
-      urlParams: urlParams.toString(),
-      href,
-      parentId,
-    });
+    return urlParams;
+  }
+
+  itemTargetConnected() {
+    this.updateTotalSelected();
+  }
+
+  itemTargetDisconnected() {
+    this.updateTotalSelected();
+  }
+
+  toggleAll(event) {
+    const isChecked = event.target.checked;
+    this.itemTargets.forEach((element) => (element.checked = isChecked));
+    this.updateTotalSelected();
+  }
+
+  toggleItem() {
+    this.updateTotalSelected();
   }
 
   updateTotalSelected() {
@@ -125,6 +134,17 @@ class BulkActionsController extends Controller {
 
     this.dispatch('total-selected-changed', {
       detail: { isAllSelected, totalSelected },
+    });
+
+    this.actionTargets.forEach((element) => {
+      // backup href to dataset.baseUrl if not already done
+      if (!element.dataset.url) {
+        element.setAttribute('data-url', element.getAttribute('href'));
+      }
+
+      const url = element.dataset.url;
+      const urlParams = this.getUrlParams(element).toString();
+      element.setAttribute('href', urlParams ? `${url}&${urlParams}` : url);
     });
   }
 }
