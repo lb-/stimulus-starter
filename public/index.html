@@ -11,7 +11,7 @@
       <section
         class="c-bulk-actions"
         id="bulk-actions-controller-demo"
-        data-controller="bulk-actions"
+        data-controller="bulk-actions cloak"
         data-bulk-actions-has-selection-class="has-selection"
         data-bulk-actions-label-translation-value='["0 documents selected", "1 document selected", "{0} documents selected"]'
         data-bulk-actions-parent-id-value="32"
@@ -26,7 +26,8 @@
                   disabled
                   type="checkbox"
                   data-action="change->bulk-actions#toggleAll"
-                  data-bulk-actions-target="allItems uncloak"
+                  data-bulk-actions-target="allItems"
+                  data-cloak-target="phase"
                 />
               </th>
               <th>Title</th>
@@ -84,7 +85,11 @@
             </tr>
           </tbody>
         </table>
-        <div style="display: none" data-bulk-actions-target="summary uncloak">
+        <div
+          style="display: none"
+          data-bulk-actions-target="summary"
+          data-cloak-target="phase"
+        >
           <input
             type="checkbox"
             data-action="bulk-actions#toggleAll"

@@ -38,15 +38,6 @@ class BulkActionsController extends Controller {
 
   connect() {
     this.updateTotalSelected();
-
-    this.uncloakTargets.map((element) => {
-      // once initialised - uncloak any elements
-      // this still requires the HTML to add a display: none; for load time (or disabled)
-      // could be a convention or could be something done in the base controller
-      // this could create issues with multiple behaviours that do this though where the same targets need to be uncloaked by different controllers
-      if (element.disabled) element.disabled = false;
-      element.style.setProperty('display', 'initial');
-    });
   }
 
   getLabelTranslatedValue(totalSelected) {

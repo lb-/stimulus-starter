@@ -13,6 +13,9 @@ import TokenList from '@wordpress/token-list';
  * - this could be added even to the root element globally for a really simple
  *   approach to hiding content until JS is loaded (just add the target)
  *   not sure on performance implications though
+ * - Phase - when disabled/display: none, visibility: hidden or others are set on
+ *   the DOM attribute, when connected it will remove these attributes
+ *   they can be 'backed up' on the element for re-phase later
  *
  * Caveats
  * - Promise is probably a bit too slow but setTimeout may be too fast?
@@ -22,18 +25,22 @@ import TokenList from '@wordpress/token-list';
  * Future
  * - Could provide other ways to 'hide' things by default that can work alongside
  *   the cloak target
- * - Phase - when disabled/display: none, visibility: hidden or others are set on
- *   the DOM attribute, when connected it will remove these attributes
- *   they can be 'backed up' on the element for re-phase later
  * - Stealth - similar to cloak but provides a way for the element to 'animate'
  *   into visibility when connected
  *
  */
 class CloakController extends Controller {
-  static targets = ['cloak', 'wait'];
+  static targets = ['cloak', 'phase', 'wait'];
 
   connect() {
-    this.uncloak();
+    this.uncloak().then(() => this.unphase());
+  }
+
+  /**
+   * Ensure we capture any additional phased targets added dynamically within
+   */
+  phaseTargetConnected() {
+    this.unphase();
   }
 
   /**
@@ -61,7 +68,7 @@ class CloakController extends Controller {
    * @param {Event?} event
    */
   uncloak(event = {}) {
-    Promise.resolve().then(() => {
+    return Promise.resolve().then(() => {
       const waitTargets = this.waitTargets;
       this.cloakTargets.forEach((element) => {
         if (waitTargets.includes(element) && element !== event.target) return;
@@ -74,6 +81,40 @@ class CloakController extends Controller {
     const targets = new TokenList(element.dataset.cloakTarget);
     targets.replace('cloak', 'uncloak');
     element.dataset.cloakTarget = targets.toString();
+  }
+
+  unphase(event = {}) {
+    return Promise.resolve().then(() => {
+      const waitTargets = this.waitTargets;
+      this.phaseTargets.forEach((element) => {
+        if (waitTargets.includes(element) && element !== event.target) return;
+        this.unphaseElement(element);
+      });
+    });
+  }
+
+  unphaseElement(element) {
+    const targets = new TokenList(element.dataset.cloakTarget);
+    const phaseTokens = new TokenList();
+
+    if (element.style.display === 'none') {
+      element.style.setProperty('display', 'initial');
+      phaseTokens.add('display');
+    }
+
+    if (element.hasAttribute('disabled')) {
+      element.removeAttribute('disabled');
+      phaseTokens.add('disabled');
+    }
+
+    if (element.hasAttribute('hidden')) {
+      element.removeAttribute('hidden');
+      phaseTokens.add('hidden');
+    }
+
+    targets.replace('phase', 'unphase');
+    element.dataset.cloakTarget = targets.toString();
+    element.setAttribute('data-phase', phaseTokens.toString());
   }
 }
 
