@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="bulma.css" />
+    <script src="bundle.js" async></script>
+  </head>
+  <body>
+    <nav data-controller="menu" data-menu-target="root">
+      <ul class="menu-list">
+        <li data-menu-target="item">
+          <a data-menu-target="link">Team Settings</a>
+        </li>
+        <li data-menu-target="item">
+          <ul data-controller="menu">
+            <li data-menu-target="item">
+              <a data-menu-target="link">Members</a>
+            </li>
+            <li data-menu-target="item">
+              <a data-menu-target="link">Plugins</a>
+            </li>
+            <li data-menu-target="item">
+              <a data-menu-target="link">Add a member</a>
+            </li>
+          </ul>
+        </li>
+        <li data-menu-target="item">
+          <a data-menu-target="link">Invitations</a>
+        </li>
+        <li data-menu-target="item">
+          <a data-menu-target="link">Cloud Storage Environment Settings</a>
+        </li>
+      </ul>
+    </nav>
+  </body>
+</html>
