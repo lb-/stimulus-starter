@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="bulma.css" />
+    <script src="bundle.js" async></script>
+  </head>
+  <body>
+    <div
+      class="container"
+      data-controller="output"
+      data-action="content:updated@window->output#updateLabel"
+    >
+      <h1 class="title">
+        Hello
+        <span data-output-target="item" data-field="name">Joe</span>
+      </h1>
+      <p>
+        Email:
+        <span data-output-target="item" data-field="email">joe@joe.co</span>
+      </p>
+    </div>
+    <div data-controller="content">
+      <input
+        type="text"
+        data-action="content#update"
+        data-content-field-param="name"
+        value="Joe"
+      />
+      <input
+        type="text"
+        data-action="content#update"
+        data-content-field-param="email"
+        value="joe@joe.co"
+      />
+    </div>
+  </body>
+</html>
