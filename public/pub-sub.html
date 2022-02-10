@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title
+      data-controller="pub-sub"
+      data-action="pub-sub:send@window->pub-sub#subscribe"
+      data-pub-sub-key-value="name"
+      data-pub-sub-template-value="Hello {}!"
+    >
+      Hello Pub Sub!
+    </title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="bulma.css" />
+    <script src="bundle.js" async></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern -->
+      <h1 class="title">
+        Hello
+        <span
+          data-controller="pub-sub"
+          data-action="pub-sub:send@window->pub-sub#subscribe"
+          data-pub-sub-key-value="name"
+          >Joe</span
+        >
+      </h1>
+      <p>
+        Email:
+        <span
+          data-controller="pub-sub"
+          data-action="pub-sub:send@window->pub-sub#subscribe"
+          data-pub-sub-key-value="email"
+          >joe@joe.co</span
+        >
+      </p>
+    </div>
+    <div>
+      <input
+        type="text"
+        data-controller="pub-sub"
+        data-action="pub-sub#publish"
+        data-pub-sub-key-value="name"
+        value="Joe"
+      />
+      <input
+        type="text"
+        data-controller="pub-sub"
+        data-action="pub-sub#publish"
+        data-pub-sub-key-value="email"
+        value="joe@joe.co"
+      />
+      <input
+        type="text"
+        data-controller="pub-sub"
+        data-action="pub-sub#publish pub-sub:send@window->pub-sub#subscribe"
+        data-pub-sub-key-value="name"
+        value="Joe"
+      />
+    </div>
+  </body>
+</html>
