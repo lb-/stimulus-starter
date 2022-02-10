@@ -1,1 +1,11 @@
 @import 'https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css';
+
+/* .form li [type='submit'] {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.form li:hover [type='submit'],
+.form li:focus-within [type='submit'] {
+  opacity: 1;
+} */

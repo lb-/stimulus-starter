@@ -15,5 +15,184 @@
         <p class="subtitle">My first website with <strong>Bulma</strong>!</p>
       </div>
     </section>
+    <section class="section is-hidden">
+      <div class="container">
+        <h2 class="title">Dropdown button</h2>
+        <div class="dropdown is-active">
+          <div class="dropdown-trigger">
+            <button
+              class="button"
+              aria-haspopup="true"
+              aria-controls="dropdown-menu"
+            >
+              <span>Options</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <button class="dropdown-item" type="button">Dropdown item</button>
+              <div class="dropdown-item">
+                <button class="button" type="button">Option 2</button>
+              </div>
+              <a href="#" class="dropdown-item is-active">
+                Active dropdown item
+              </a>
+              <a href="#" class="dropdown-item"> Other dropdown item </a>
+              <hr class="dropdown-divider" />
+              <a href="#" class="dropdown-item"> With a divider </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section is-hidden">
+      <div class="container">
+        <h2 class="title">Tabs</h2>
+        <p>
+          Not really practical to make this accessible, does not even support
+          buttons for tabs?
+        </p>
+        <div
+          class="tabs"
+          data-controller="tabs"
+          role="tablist"
+          aria-label="Coffee"
+        >
+          <ul class="">
+            <li class="is-active">
+              <a
+                aria-controls="aeropress-tab"
+                aria-selected="true"
+                id="aeropress"
+                role="button"
+              >
+                AeroPress
+              </a>
+            </li>
+            <li>
+              <a aria-controls="batch-brew-tab" id="batch-brew" role="button">
+                Batch Brew
+              </a>
+            </li>
+            <li>
+              <button
+                class="is-tab"
+                aria-controls="espresso-tab"
+                id="espresso"
+                type="button"
+              >
+                Espresso
+              </button>
+            </li>
+            <li>
+              <button aria-controls="v60-tab" id="v60" type="button">
+                V60
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="box"
+          tabindex="0"
+          role="tabpanel"
+          id="aeropress-tab"
+          aria-labelledby="aeropress"
+        >
+          AeroPress
+        </div>
+        <div
+          class="box is-hidden"
+          tabindex="0"
+          role="tabpanel"
+          id="batch-brew-tab"
+          aria-labelledby="batch-brew"
+        >
+          Batch Brew
+        </div>
+        <div
+          class="box is-hidden"
+          tabindex="0"
+          role="tabpanel"
+          id="espresso-tab"
+          aria-labelledby="espresso"
+        >
+          Espresso
+        </div>
+        <div
+          class="box is-hidden"
+          tabindex="0"
+          role="tabpanel"
+          id="v60-tab"
+          aria-labelledby="v60"
+        >
+          V60
+        </div>
+      </div>
+    </section>
+    <section>
+      <form class="form">
+        <ul>
+          <li
+            data-controller="editor"
+            data-action="focusin->editor#showButton focusout->editor#hideButton"
+            data-editor-hidden-class="is-hidden"
+          >
+            <label>Item1</label><br />
+            <input type="text" />
+            <input
+              class="is-hidden"
+              type="submit"
+              value="Submit"
+              data-editor-target="button"
+            />
+          </li>
+          <li
+            data-controller="editor"
+            data-action="focusin->editor#showButton focusout->editor#hideButton"
+            data-editor-hidden-class="is-hidden"
+          >
+            <label>Item2</label><br />
+            <input type="text" />
+            <input
+              class="is-hidden"
+              type="submit"
+              value="Submit"
+              data-editor-target="button"
+            />
+          </li>
+          <li
+            data-controller="editor"
+            data-action="focusin->editor#showButton focusout->editor#hideButton"
+            data-editor-hidden-class="is-hidden"
+          >
+            <label>Item4</label><br />
+            <input type="text" />
+            <input
+              class="is-hidden"
+              type="submit"
+              value="Submit"
+              data-editor-target="button"
+            />
+          </li>
+          <li
+            data-controller="editor"
+            data-action="focusin->editor#showButton focusout->editor#hideButton"
+            data-editor-hidden-class="is-hidden"
+          >
+            <label>Item4</label><br />
+            <input type="text" data-action="click->editor#showButton" />
+            <input
+              class="is-hidden"
+              type="submit"
+              value="Submit"
+              data-editor-target="button"
+            />
+          </li>
+        </ul>
+      </form>
+    </section>
   </body>
 </html>
