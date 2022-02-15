@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Expanding Formset</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="bulma.css" />
+    <script src="bundle.js" async></script>
+  </head>
+  <body>
+    <form class="container">
+      <h2 class="title">Expanding Formset Demo</h2>
+      <div
+        data-controller="expanding-formset"
+        data-expanding-formset-initial-value="1"
+        data-expanding-formset-min-value="1"
+        data-expanding-formset-max-value="3"
+        data-expanding-formset-total-value="1"
+        data-action="inline-panel:deleted->expanding-formset#deleteItem inline-panel:moved->expanding-formset#moveItem"
+        data-expanding-formset-is-moving-class="moving"
+      >
+        <ul class="block multiple" data-expanding-formset-target="container">
+          <li
+            class="box"
+            data-action="expanding-formset:update->inline-panel#update expanding-formset:moveEnd->inline-panel#move"
+            data-controller="inline-panel"
+            data-expanding-formset-target="item"
+            data-inline-panel-index-value="0"
+            data-inline-panel-is-deleted-class="is-hidden"
+            data-inline-panel-is-moving-class="moving"
+          >
+            <fieldset class="block">
+              <legend class="title is-5">Add tasks to your workflow</legend>
+              <ul class="fields">
+                <li class="required model_choice_field">
+                  <div class="field model_choice_field admin_task_chooser">
+                    <label for="id_workflow_tasks-0-task">Task:</label>
+                    <div class="field-content">
+                      <div class="input">
+                        <input
+                          type="text"
+                          name="workflow_tasks-0-task"
+                          id="id_workflow_tasks-0-task"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </fieldset>
+            <ul class="field controls is-grouped buttons are-small">
+              <li class="control">
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white inline-child-move-up disabled"
+                  data-inline-panel-target="moveUpButton"
+                  data-action="inline-panel#move"
+                  data-inline-panel-move-up-param="true"
+                >
+                  Up
+                </button>
+              </li>
+              <li class="control">
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white inline-child-move-down disabled"
+                  data-inline-panel-target="moveDownButton"
+                  data-action="inline-panel#move"
+                  data-inline-panel-move-up-param="false"
+                >
+                  Down
+                </button>
+              </li>
+              <li class="control">
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white hover-no"
+                  data-inline-panel-target="deleteButton"
+                  data-action="inline-panel#delete"
+                >
+                  Delete
+                </button>
+              </li>
+              <li class="control">
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white hover-no"
+                  data-inline-panel-target="copyButton"
+                  data-action="inline-panel#copy"
+                >
+                  Copy
+                </button>
+              </li>
+            </ul>
+            <input type="hidden" name="workflow_tasks-0-id" value="1" />
+            <input
+              type="hidden"
+              name="workflow_tasks-0-ORDER"
+              value="1"
+              data-inline-panel-target="orderInput"
+            />
+            <input
+              type="hidden"
+              name="workflow_tasks-0-DELETE"
+              data-inline-panel-target="deleteInput"
+            />
+          </li>
+        </ul>
+        <p class="block add">
+          <button
+            type="button"
+            class="button bicolor button--icon"
+            disabled
+            data-action="expanding-formset#addItem"
+            data-cloak-target="phase"
+            data-controller="cloak"
+            data-expanding-formset-target="addButton"
+          >
+            Add
+          </button>
+        </p>
+        <template
+          id="id_workflow_tasks-EMPTY_FORM_TEMPLATE"
+          data-expanding-formset-target="template"
+        >
+          <li
+            class="box"
+            data-action="expanding-formset:update->inline-panel#update"
+            data-controller="inline-panel"
+            data-expanding-formset-target="item"
+            data-inline-panel-index-value="__index__"
+            data-inline-panel-is-deleted-class="is-hidden is-removed"
+          >
+            <fieldset class="block">
+              <legend class="title is-5">Add tasks to your workflow</legend>
+              <ul class="fields">
+                <li class="required model_choice_field">
+                  <div class="field model_choice_field admin_task_chooser">
+                    <label for="id_workflow_tasks-__prefix__-task">Task:</label>
+                    <div class="field-content">
+                      <div class="input">
+                        <input
+                          type="text"
+                          name="workflow_tasks-__prefix__-task"
+                          id="id_workflow_tasks-__prefix__-task"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </fieldset>
+            <ul class="field controls is-grouped buttons are-small">
+              <li>
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white inline-child-move-up disabled"
+                  data-inline-panel-target="moveUpButton"
+                  data-action="inline-panel#move"
+                  data-inline-panel-move-up-param="true"
+                >
+                  Up
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white inline-child-move-down disabled"
+                  data-inline-panel-target="moveDownButton"
+                  data-action="inline-panel#move"
+                  data-inline-panel-move-up-param="false"
+                >
+                  Down
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white hover-no"
+                  data-inline-panel-target="deleteButton"
+                  data-action="inline-panel#delete"
+                >
+                  Delete
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white hover-no"
+                  data-inline-panel-target="copyButton"
+                  data-action="inline-panel#copy"
+                >
+                  Copy
+                </button>
+              </li>
+            </ul>
+            <input
+              type="hidden"
+              name="workflow_tasks-__prefix__-id"
+              value="1"
+            />
+            <input
+              type="hidden"
+              name="workflow_tasks-__prefix__-ORDER"
+              value="1"
+              data-inline-panel-target="orderInput"
+            />
+            <input
+              type="hidden"
+              name="workflow_tasks-__prefix__-DELETE"
+              data-inline-panel-target="deleteInput"
+            />
+          </li>
+        </template>
+      </div>
+    </form>
+    <section class="from-wagtail is-hidden">
+      <div class="object-layout_big-part">
+        <input
+          type="hidden"
+          name="workflow_tasks-TOTAL_FORMS"
+          value="1"
+          id="id_workflow_tasks-TOTAL_FORMS"
+        /><input
+          type="hidden"
+          name="workflow_tasks-INITIAL_FORMS"
+          value="1"
+          id="id_workflow_tasks-INITIAL_FORMS"
+        /><input
+          type="hidden"
+          name="workflow_tasks-MIN_NUM_FORMS"
+          value="0"
+          id="id_workflow_tasks-MIN_NUM_FORMS"
+        /><input
+          type="hidden"
+          name="workflow_tasks-MAX_NUM_FORMS"
+          value="1000"
+          id="id_workflow_tasks-MAX_NUM_FORMS"
+        />
+
+        <ul class="multiple" id="id_workflow_tasks-FORMS">
+          <li
+            data-inline-panel-child=""
+            id="inline_child_workflow_tasks-0"
+            data-contentpath-disabled=""
+          >
+            <ul class="controls">
+              <li>
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white inline-child-move-up disabled"
+                  id="workflow_tasks-0-move-up"
+                  title="Move up"
+                >
+                  <svg
+                    class="icon icon-order-up icon"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <use href="#icon-order-up"></use></svg
+                  >Move up
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white inline-child-move-down disabled"
+                  id="workflow_tasks-0-move-down"
+                  title="Move down"
+                >
+                  <svg
+                    class="icon icon-order-down icon"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <use href="#icon-order-down"></use></svg
+                  >Move down
+                </button>
+              </li>
+
+              <li>
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white hover-no"
+                  id="id_workflow_tasks-0-DELETE-button"
+                  title="Delete"
+                >
+                  <svg
+                    class="icon icon-bin icon"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <use href="#icon-bin"></use></svg
+                  >Delete
+                </button>
+              </li>
+            </ul>
+            <fieldset>
+              <legend>Add tasks to your workflow</legend>
+              <ul class="fields">
+                <li class="required model_choice_field">
+                  <div
+                    class="field model_choice_field admin_task_chooser"
+                    data-contentpath="task"
+                  >
+                    <label for="id_workflow_tasks-0-task">Task:</label>
+                    <div class="field-content">
+                      <div class="input">
+                        <div
+                          id="id_workflow_tasks-0-task-chooser"
+                          class="chooser task-chooser"
+                          data-chooser-url="/admin/workflows/task_chooser/"
+                        >
+                          <div class="chosen">
+                            <span class="name">Moderators approval</span>
+
+                            <ul class="actions">
+                              <li>
+                                <button
+                                  type="button"
+                                  class="button action-choose button-small button-secondary"
+                                >
+                                  Choose another task
+                                </button>
+                              </li>
+
+                              <li>
+                                <a
+                                  href="/admin/workflows/tasks/edit/1/"
+                                  class="edit-link button button-small button-secondary"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Edit this task</a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div class="unchosen">
+                            <button
+                              type="button"
+                              class="button action-choose button-small button-secondary"
+                            >
+                              Choose a task
+                            </button>
+                          </div>
+                        </div>
+
+                        <input
+                          type="hidden"
+                          name="workflow_tasks-0-task"
+                          value="1"
+                          id="id_workflow_tasks-0-task"
+                        />
+                        <span></span>
+                      </div>
+                    </div>
+
+                    <div class="field-comment-control">
+                      <button
+                        type="button"
+                        data-component="add-comment-button"
+                        data-comment-add=""
+                        class="u-hidden"
+                        aria-label="Add comment"
+                      >
+                        <svg
+                          class="icon icon-comment-add initial icon-default"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <use href="#icon-comment-add"></use>
+                        </svg>
+                        <svg
+                          class="icon icon-comment-add initial icon-reversed"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <use href="#icon-comment-add-reversed"></use>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </fieldset>
+            <input
+              type="hidden"
+              name="workflow_tasks-0-id"
+              value="1"
+              id="id_workflow_tasks-0-id"
+            /><input
+              type="hidden"
+              name="workflow_tasks-0-ORDER"
+              value="1"
+              id="id_workflow_tasks-0-ORDER"
+            /><input
+              type="hidden"
+              name="workflow_tasks-0-DELETE"
+              id="id_workflow_tasks-0-DELETE"
+            />
+          </li>
+        </ul>
+
+        <script
+          type="text/django-form-template"
+          id="id_workflow_tasks-EMPTY_FORM_TEMPLATE"
+        >
+
+
+          <li data-inline-panel-child id="inline_child_workflow_tasks-__prefix__" data-contentpath-disabled>
+
+              <ul class="controls">
+
+                      <li><button type="button" class="button button-small button--icon text-replace white inline-child-move-up" id="workflow_tasks-__prefix__-move-up" title="Move up"><svg class="icon icon-order-up icon" aria-hidden="true" focusable="false"><use href="#icon-order-up"></use></svg>Move up</button></li>
+                      <li><button type="button" class="button button-small button--icon text-replace white inline-child-move-down" id="workflow_tasks-__prefix__-move-down" title="Move down"><svg class="icon icon-order-down icon" aria-hidden="true" focusable="false"><use href="#icon-order-down"></use></svg>Move down</button></li>
+
+                  <li><button type="button" class="button button-small button--icon text-replace white hover-no" id="id_workflow_tasks-__prefix__-DELETE-button" title="Delete"><svg class="icon icon-bin icon" aria-hidden="true" focusable="false"><use href="#icon-bin"></use></svg>Delete</button></li>
+              </ul>
+              <fieldset>
+              <legend>Add tasks to your workflow</legend>
+              <ul class="fields">
+
+                      <li class="required model_choice_field">
+          <div class="field model_choice_field admin_task_chooser " data-contentpath="task">
+              <label for="id_workflow_tasks-__prefix__-task">Task:</label>
+              <div class="field-content">
+                  <div class="input  ">
+
+
+
+
+          <div id="id_workflow_tasks-__prefix__-task-chooser" class="chooser task-chooser blank" data-chooser-url="/admin/workflows/task_chooser/">
+
+              <div class="chosen">
+
+
+              <span class="name"></span>
+
+
+                  <ul class="actions">
+
+                      <li><button type="button" class="button action-choose button-small button-secondary">Choose another task</button></li>
+
+                          <li>
+
+                                  <a href="" class="edit-link button button-small button-secondary" target="_blank" rel="noopener noreferrer">Edit this task</a>
+
+                          </li>
+
+                  </ul>
+              </div>
+
+              <div class="unchosen">
+
+                  <button type="button" class="button action-choose button-small button-secondary">Choose a task</button>
+              </div>
+          </div>
+
+          <input type="hidden" name="workflow_tasks-__prefix__-task" id="id_workflow_tasks-__prefix__-task">
+          <script>createTaskChooser("id_workflow_tasks-__prefix__-task");<-/script>
+
+
+
+                      <span></span>
+                  </div>
+
+
+
+              </div>
+
+
+                  <div class="field-comment-control">
+                      <button type="button" data-component="add-comment-button" data-comment-add class="u-hidden" aria-label="Add comment">
+                          <svg class="icon icon-comment-add initial icon-default" aria-hidden="true" focusable="false"><use href="#icon-comment-add"></use></svg>
+                          <svg class="icon icon-comment-add initial icon-reversed" aria-hidden="true" focusable="false"><use href="#icon-comment-add-reversed"></use></svg>
+                      </button>
+                  </div>
+
+          </div>
+
+          </li>
+
+              </ul>
+          </fieldset>
+          <input type="hidden" name="workflow_tasks-__prefix__-id" id="id_workflow_tasks-__prefix__-id"><input type="hidden" name="workflow_tasks-__prefix__-ORDER" id="id_workflow_tasks-__prefix__-ORDER"><input type="hidden" name="workflow_tasks-__prefix__-DELETE" id="id_workflow_tasks-__prefix__-DELETE">
+          </li>
+        </script>
+
+        <p class="add">
+          <button
+            type="button"
+            class="button bicolor button--icon"
+            id="id_workflow_tasks-ADD"
+          >
+            <span class="icon-wrapper"
+              ><svg
+                class="icon icon-plus icon"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <use href="#icon-plus"></use></svg
+            ></span>
+            Add
+          </button>
+        </p>
+        <script>
+          (function () {
+            if (!window.InlinePanel) return;
+            var panel = InlinePanel({
+              formsetPrefix: 'id_workflow_tasks',
+              emptyChildFormPrefix: 'workflow_tasks-__prefix__',
+              canOrder: true,
+              maxForms: 1000,
+            });
+
+            panel.initChildControls('workflow_tasks-0');
+
+            panel.setHasContent();
+            panel.updateMoveButtonDisabledStates();
+            panel.updateAddButtonState();
+          })();
+        </script>
+      </div>
+    </section>
+  </body>
+</html>
