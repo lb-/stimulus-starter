@@ -18,19 +18,15 @@
         data-expanding-formset-min-value="1"
         data-expanding-formset-max-value="3"
         data-expanding-formset-total-value="1"
-        data-action="inline-panel:deleted->expanding-formset#deleteItem inline-panel:moved->expanding-formset#moveItem"
-        data-expanding-formset-is-moving-class="moving"
+        data-expanding-formset-animate-class="animate__animated animate__slower"
+        data-expanding-formset-animate-deleted-class="animate__fadeOutRight"
+        data-expanding-formset-animate-move-up-class="animate__slideInUp"
+        data-expanding-formset-animate-move-down-class="animate__slideInDown"
+        data-expanding-formset-is-moving-class="is-moving"
+        data-expanding-formset-is-deleted-class="is-hidden"
       >
         <ul class="block multiple" data-expanding-formset-target="container">
-          <li
-            class="box"
-            data-action="expanding-formset:update->inline-panel#update expanding-formset:moveEnd->inline-panel#move"
-            data-controller="inline-panel"
-            data-expanding-formset-target="item"
-            data-inline-panel-index-value="0"
-            data-inline-panel-is-deleted-class="is-hidden"
-            data-inline-panel-is-moving-class="moving"
-          >
+          <li class="box" data-expanding-formset-target="item">
             <fieldset class="block">
               <legend class="title is-5">Add tasks to your workflow</legend>
               <ul class="fields">
@@ -55,9 +51,8 @@
                 <button
                   type="button"
                   class="button button-small button--icon text-replace white inline-child-move-up disabled"
-                  data-inline-panel-target="moveUpButton"
-                  data-action="inline-panel#move"
-                  data-inline-panel-move-up-param="true"
+                  data-action="expanding-formset#moveUp"
+                  disabled
                 >
                   Up
                 </button>
@@ -66,9 +61,8 @@
                 <button
                   type="button"
                   class="button button-small button--icon text-replace white inline-child-move-down disabled"
-                  data-inline-panel-target="moveDownButton"
-                  data-action="inline-panel#move"
-                  data-inline-panel-move-up-param="false"
+                  data-action="expanding-formset#moveDown"
+                  disabled
                 >
                   Down
                 </button>
@@ -77,35 +71,16 @@
                 <button
                   type="button"
                   class="button button-small button--icon text-replace white hover-no"
-                  data-inline-panel-target="deleteButton"
-                  data-action="inline-panel#delete"
+                  data-action="expanding-formset#delete"
+                  disabled
                 >
                   Delete
                 </button>
               </li>
-              <li class="control">
-                <button
-                  type="button"
-                  class="button button-small button--icon text-replace white hover-no"
-                  data-inline-panel-target="copyButton"
-                  data-action="inline-panel#copy"
-                >
-                  Copy
-                </button>
-              </li>
             </ul>
             <input type="hidden" name="workflow_tasks-0-id" value="1" />
-            <input
-              type="hidden"
-              name="workflow_tasks-0-ORDER"
-              value="1"
-              data-inline-panel-target="orderInput"
-            />
-            <input
-              type="hidden"
-              name="workflow_tasks-0-DELETE"
-              data-inline-panel-target="deleteInput"
-            />
+            <input type="hidden" name="workflow_tasks-0-ORDER" value="1" />
+            <input type="hidden" name="workflow_tasks-0-DELETE" />
           </li>
         </ul>
         <p class="block add">
@@ -113,7 +88,7 @@
             type="button"
             class="button bicolor button--icon"
             disabled
-            data-action="expanding-formset#addItem"
+            data-action="expanding-formset#add"
             data-cloak-target="phase"
             data-controller="cloak"
             data-expanding-formset-target="addButton"
@@ -125,16 +100,11 @@
           id="id_workflow_tasks-EMPTY_FORM_TEMPLATE"
           data-expanding-formset-target="template"
         >
-          <li
-            class="box"
-            data-action="expanding-formset:update->inline-panel#update"
-            data-controller="inline-panel"
-            data-expanding-formset-target="item"
-            data-inline-panel-index-value="__index__"
-            data-inline-panel-is-deleted-class="is-hidden is-removed"
-          >
+          <li class="box" data-expanding-formset-target="item">
             <fieldset class="block">
-              <legend class="title is-5">Add tasks to your workflow</legend>
+              <legend class="title is-5">
+                Add tasks to your workflow (template)
+              </legend>
               <ul class="fields">
                 <li class="required model_choice_field">
                   <div class="field model_choice_field admin_task_chooser">
@@ -153,46 +123,34 @@
               </ul>
             </fieldset>
             <ul class="field controls is-grouped buttons are-small">
-              <li>
+              <li class="control">
                 <button
                   type="button"
                   class="button button-small button--icon text-replace white inline-child-move-up disabled"
-                  data-inline-panel-target="moveUpButton"
-                  data-action="inline-panel#move"
-                  data-inline-panel-move-up-param="true"
+                  data-action="expanding-formset#moveUp"
+                  disabled
                 >
                   Up
                 </button>
               </li>
-              <li>
+              <li class="control">
                 <button
                   type="button"
                   class="button button-small button--icon text-replace white inline-child-move-down disabled"
-                  data-inline-panel-target="moveDownButton"
-                  data-action="inline-panel#move"
-                  data-inline-panel-move-up-param="false"
+                  data-action="expanding-formset#moveDown"
+                  disabled
                 >
                   Down
                 </button>
               </li>
-              <li>
+              <li class="control">
                 <button
                   type="button"
                   class="button button-small button--icon text-replace white hover-no"
-                  data-inline-panel-target="deleteButton"
-                  data-action="inline-panel#delete"
+                  data-action="expanding-formset#delete"
+                  disabled
                 >
                   Delete
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  class="button button-small button--icon text-replace white hover-no"
-                  data-inline-panel-target="copyButton"
-                  data-action="inline-panel#copy"
-                >
-                  Copy
                 </button>
               </li>
             </ul>
@@ -205,13 +163,8 @@
               type="hidden"
               name="workflow_tasks-__prefix__-ORDER"
               value="1"
-              data-inline-panel-target="orderInput"
             />
-            <input
-              type="hidden"
-              name="workflow_tasks-__prefix__-DELETE"
-              data-inline-panel-target="deleteInput"
-            />
+            <input type="hidden" name="workflow_tasks-__prefix__-DELETE" />
           </li>
         </template>
       </div>
@@ -223,23 +176,25 @@
           name="workflow_tasks-TOTAL_FORMS"
           value="1"
           id="id_workflow_tasks-TOTAL_FORMS"
-        /><input
+        />
+        <input
           type="hidden"
           name="workflow_tasks-INITIAL_FORMS"
           value="1"
           id="id_workflow_tasks-INITIAL_FORMS"
-        /><input
+        />
+        <input
           type="hidden"
           name="workflow_tasks-MIN_NUM_FORMS"
           value="0"
           id="id_workflow_tasks-MIN_NUM_FORMS"
-        /><input
+        />
+        <input
           type="hidden"
           name="workflow_tasks-MAX_NUM_FORMS"
           value="1000"
           id="id_workflow_tasks-MAX_NUM_FORMS"
         />
-
         <ul class="multiple" id="id_workflow_tasks-FORMS">
           <li
             data-inline-panel-child=""
