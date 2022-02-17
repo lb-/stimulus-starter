@@ -2,7 +2,6 @@ import { Controller } from '@hotwired/stimulus';
 import TokenList from '@wordpress/token-list';
 
 const INNER_TARGETS = [
-  'idInput',
   'orderInput',
   'deleteInput',
   'moveUpButton',
@@ -50,6 +49,11 @@ class InlinePanel extends Controller {
   ];
 
   add() {
+    const maxValue = this.maxValue;
+    const total = this.itemTargets.length;
+
+    if (total + 1 > maxValue) return;
+
     const newItem = this.getNewItemFromTemplate();
 
     const event = this.dispatch('add', {
@@ -59,7 +63,13 @@ class InlinePanel extends Controller {
 
     if (event.defaultPrevented) return;
 
-    this.containerTarget.appendChild(newItem);
+    const item = this.containerTarget.appendChild(newItem);
+
+    item.refs = this.getItemRefs(item);
+
+    this.update(() => {
+      this.dispatch('added', { cancelable: false, detail: { item } });
+    });
   }
 
   connect() {
@@ -67,7 +77,9 @@ class InlinePanel extends Controller {
       item.refs = this.getItemRefs(item);
     });
 
-    this.dispatch('connected', { cancelable: false });
+    this.update(() => {
+      this.dispatch('connected', { cancelable: false });
+    });
   }
 
   getItemWithTarget(target) {
@@ -77,14 +89,19 @@ class InlinePanel extends Controller {
     return [itemTargets[index], index];
   }
 
-  getItemRefs(item) {
-    const getInnerTarget = (name) =>
-      (this[`${name}Targets`] || []).find((element) =>
-        item.contains(element)
-      ) || null;
+  getInnerTargets(item, name) {
+    return (this[`${name}Targets`] || []).filter((element) =>
+      item.contains(element)
+    );
+  }
 
+  getItemRefs(item) {
     return Object.fromEntries(
-      INNER_TARGETS.map((name) => [name, getInnerTarget(name)])
+      INNER_TARGETS.map((name) => {
+        const innerTargets = this.getInnerTargets(item, name);
+        const isInput = name.includes('input');
+        return [name, isInput ? innerTargets[0] || null : innerTargets];
+      })
     );
   }
 
@@ -94,15 +111,6 @@ class InlinePanel extends Controller {
     const newPanel = template.content.firstElementChild.cloneNode(true);
     newPanel.innerHTML = newPanel.innerHTML.replaceAll('__prefix__', nextId);
     return newPanel;
-  }
-
-  itemTargetConnected(item) {
-    item.refs = this.getItemRefs(item);
-
-    this.update(() => {
-      if (this.isMoving) return; // might be a nicer way to avoid this when moving
-      this.dispatch('added', { cancelable: false, detail: { item } });
-    });
   }
 
   deletedTargetConnected(item) {
@@ -218,17 +226,13 @@ class InlinePanel extends Controller {
   }
 
   transitionSwap(itemsToSwap) {
-    this.isMoving = true;
     const isMovingClass = this.isMovingClass;
     this.element.classList.add(this.isMovingClass);
 
     // swap the actual DOM elements first
     this.containerTarget.insertBefore(...itemsToSwap);
 
-    if (this.noAnimateValue) {
-      this.isMoving = false;
-      return;
-    }
+    if (this.noAnimateValue) return;
 
     const animateClass = this.animateClass;
     const animateMoveUp = this.animateMoveUpClass;
@@ -249,7 +253,6 @@ class InlinePanel extends Controller {
           itemToSwap.classList.remove(animateClass);
           itemToSwap.classList.remove(animateMoveUp);
           itemToSwap.classList.remove(animateMoveDown);
-          this.isMoving = false;
         },
         { capture: true, once: true, passive: true }
       );
@@ -263,7 +266,11 @@ class InlinePanel extends Controller {
 
     // update main controller values and state
     this.totalValue = total;
-    this.addButtonTarget.disabled = total >= maxValue;
+    const disableAddButton = total >= maxValue;
+
+    this.addButtonTargets.forEach((addButton) => {
+      addButton.disabled = disableAddButton;
+    });
 
     // update inner input values & button states
     this.itemTargets.forEach((item, index) => {
@@ -271,13 +278,22 @@ class InlinePanel extends Controller {
         item.refs;
 
       if (this.canOrderValue) {
-        if (orderInput) orderInput.value = index + 1;
-        if (moveUpButton) moveUpButton.disabled = index === 0;
-        if (moveDownButton) moveDownButton.disabled = index === total - 1;
+        const canMoveUp = index === 0;
+        const canMoveDown = index === total - 1;
+
+        orderInput.value = index + 1;
+
+        moveUpButton.forEach((button) => {
+          button.disabled = canMoveUp;
+        });
+
+        moveDownButton.forEach((button) => {
+          button.disabled = canMoveDown;
+        });
       }
 
       if (this.canDeleteValue) {
-        if (deleteButton) deleteButton.disabled = total <= minValue;
+        deleteButton.forEach((button) => (button.disabled = total <= minValue));
       }
     });
 
@@ -292,17 +308,24 @@ class InlinePanel extends Controller {
 
       // update inputs to reflect that this is deleted
       deleteInput.value = 1;
-      if (deleteButton) deleteButton.disabled = true;
+      deleteButton.forEach((button) => {
+        button.disabled = true;
+      });
 
       // disable other buttons for ordering
       if (this.canOrderValue) {
-        if (moveUpButton) moveUpButton.disabled = true;
-        if (moveDownButton) moveDownButton.disabled = true;
-        if (orderInput) orderInput.value = -1;
+        orderInput.value = -1;
+
+        moveUpButton.forEach((button) => {
+          button.disabled = true;
+        });
+        moveDownButton.forEach((button) => {
+          button.disabled = true;
+        });
       }
     });
 
-    afterUpdateFn && setTimeout(afterUpdateFn);
+    afterUpdateFn && afterUpdateFn();
   }
 }
 
