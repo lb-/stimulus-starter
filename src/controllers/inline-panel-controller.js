@@ -2,6 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import TokenList from '@wordpress/token-list';
 
 const INNER_TARGETS = [
+  'idInput',
   'orderInput',
   'deleteInput',
   'moveUpButton',
@@ -49,17 +50,18 @@ class InlinePanel extends Controller {
     ...INNER_TARGETS,
   ];
 
-  add() {
+  add(
+    clickEvent,
+    { newItem = this.getNewItemFromTemplate(), isClone = false } = {}
+  ) {
     const maxValue = this.maxValue;
     const total = this.itemTargets.length;
 
     if (total + 1 > maxValue) return;
 
-    const newItem = this.getNewItemFromTemplate();
-
     const event = this.dispatch('add', {
       cancelable: true,
-      detail: { newItem },
+      detail: { isClone, newItem },
     });
 
     if (event.defaultPrevented) return;
@@ -69,7 +71,7 @@ class InlinePanel extends Controller {
     item.refs = this.getItemRefs(item);
 
     this.update(() => {
-      this.dispatch('added', { cancelable: false, detail: { item } });
+      this.dispatch('added', { cancelable: false, detail: { item, isClone } });
     });
   }
 
@@ -81,6 +83,43 @@ class InlinePanel extends Controller {
     this.update(() => {
       this.dispatch('connected', { cancelable: false });
     });
+  }
+
+  /**
+   * This is a naive clone implementation that may not work well for nested
+   * InlinePanel scenarios and makes the assumption that the only thing we
+   * want to update is __prefix__ attributes originally in the template.
+   * It does have some edge case handling if the __prefix__ is not in the
+   * original but may not be robust.
+   * @param {*} event
+   */
+  clone(event) {
+    const nextIndex = this.containerTarget.childElementCount; // zero based
+    const { target } = event;
+    const [item] = this.getItemWithTarget(target);
+    const { idInput } = item.refs;
+    const index = idInput.dataset.index;
+
+    const template = this.templateTarget;
+    const prefixMatches = [
+      ...template.content.firstElementChild
+        .cloneNode(true)
+        // this regex will grab from the start of any attribute after '=' to the end of __prefix__
+        .innerHTML.matchAll(/(=['"].*?)__prefix__/g),
+    ].map(([original]) => ({
+      original,
+      current: original.replace(/__prefix__/, index),
+      clone: original.replace(/__prefix__/, nextIndex),
+    }));
+
+    const newItem = item.cloneNode(true);
+
+    prefixMatches.forEach(({ current, clone }) => {
+      // use replaceAll here to attempt to catch nested inline panel usage
+      newItem.innerHTML = newItem.innerHTML.replaceAll(current, clone);
+    });
+
+    this.add(event, { newItem, isClone: true });
   }
 
   getItemWithTarget(target) {
@@ -100,17 +139,17 @@ class InlinePanel extends Controller {
     return Object.fromEntries(
       INNER_TARGETS.map((name) => {
         const innerTargets = this.getInnerTargets(item, name);
-        const isInput = name.includes('input');
+        const isInput = name.includes('Input');
         return [name, isInput ? innerTargets[0] || null : innerTargets];
       })
     );
   }
 
   getNewItemFromTemplate() {
-    const nextId = this.containerTarget.childElementCount + 1;
+    const nextIndex = this.containerTarget.childElementCount; // zero based
     const template = this.templateTarget;
     const newPanel = template.content.firstElementChild.cloneNode(true);
-    newPanel.innerHTML = newPanel.innerHTML.replaceAll('__prefix__', nextId);
+    newPanel.innerHTML = newPanel.innerHTML.replaceAll('__prefix__', nextIndex);
     return newPanel;
   }
 

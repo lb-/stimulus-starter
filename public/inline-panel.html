@@ -82,8 +82,25 @@
                   Delete
                 </button>
               </li>
+              <li class="control">
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white hover-no"
+                  data-inline-panel-target="addButton"
+                  data-action="inline-panel#clone"
+                  disabled
+                >
+                  Clone
+                </button>
+              </li>
             </ul>
-            <input type="hidden" name="workflow_tasks-0-id" value="1" />
+            <input
+              type="hidden"
+              name="workflow_tasks-0-id"
+              value="1"
+              data-index="0"
+              data-inline-panel-target="idInput"
+            />
             <input
               type="hidden"
               name="workflow_tasks-0-ORDER"
@@ -185,18 +202,34 @@
                   Delete
                 </button>
               </li>
+              <li class="control">
+                <button
+                  type="button"
+                  class="button button-small button--icon text-replace white hover-no"
+                  data-inline-panel-target="addButton"
+                  data-action="inline-panel#clone"
+                  disabled
+                >
+                  Clone
+                </button>
+              </li>
             </ul>
             <input
               type="hidden"
               name="workflow_tasks-__prefix__-id"
-              value="1"
+              data-index="__prefix__"
+              data-inline-panel-target="idInput"
             />
             <input
               type="hidden"
               name="workflow_tasks-__prefix__-ORDER"
-              value="1"
+              data-inline-panel-target="orderInput"
             />
-            <input type="hidden" name="workflow_tasks-__prefix__-DELETE" />
+            <input
+              type="hidden"
+              name="workflow_tasks-__prefix__-DELETE"
+              data-inline-panel-target="deleteInput"
+            />
           </li>
         </template>
       </div>
