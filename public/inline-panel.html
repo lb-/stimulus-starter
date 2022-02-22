@@ -83,12 +83,7 @@
                 </button>
               </li>
             </ul>
-            <input
-              type="hidden"
-              name="workflow_tasks-0-id"
-              value="1"
-              data-inline-panel-target="idInput"
-            />
+            <input type="hidden" name="workflow_tasks-0-id" value="1" />
             <input
               type="hidden"
               name="workflow_tasks-0-ORDER"
@@ -108,11 +103,26 @@
             class="button bicolor button--icon"
             disabled
             data-action="inline-panel#add"
-            data-cloak-target="phase"
-            data-controller="cloak"
             data-inline-panel-target="addButton"
           >
             Add
+          </button>
+          <button
+            type="button"
+            class="button bicolor button--icon"
+            disabled
+            data-action="inline-panel#undoDelete"
+            data-inline-panel-target="undoDeleteButton"
+          >
+            Undo delete
+          </button>
+          <button
+            type="button"
+            class="button bicolor button--icon"
+            data-action="inline-panel#add inline-panel#add"
+            data-inline-panel-target="addButton"
+          >
+            Add two (test?)
           </button>
         </p>
         <template

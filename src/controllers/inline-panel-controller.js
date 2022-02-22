@@ -41,6 +41,7 @@ class InlinePanel extends Controller {
   static targets = [
     'addButton',
     'container',
+    'undoDeleteButton',
     // item main targets
     'item',
     'deleted',
@@ -113,8 +114,19 @@ class InlinePanel extends Controller {
     return newPanel;
   }
 
+  getUndoDeletedQueue() {
+    return this.deletedTargets
+      .map((item) => item.dataset.deletedOn)
+      .filter((val) => val)
+      .sort();
+  }
+
   deletedTargetConnected(item) {
     item.refs = this.getItemRefs(item);
+
+    // add a date to help track for undo
+    const deletedOn = new Date().toISOString();
+    item.dataset.deletedOn = deletedOn;
 
     this.update(() => {
       this.dispatch('deleted', { cancelable: false, detail: { item } });
@@ -194,6 +206,7 @@ class InlinePanel extends Controller {
     this.transitionSwap(itemsToSwap);
 
     this.update(() => {
+      // this.undoMoveValue = ['movedUp', item.refs.idInput[0].value];
       this.dispatch('movedUp', {
         target: item,
         detail: { index, cancelable: false },
@@ -218,6 +231,7 @@ class InlinePanel extends Controller {
     this.transitionSwap(itemsToSwap);
 
     this.update(() => {
+      // this.undoMoveValue = ['movedUp', item.refs.idInput[0].value];
       this.dispatch('movedUp', {
         target: item,
         detail: { index, cancelable: false },
@@ -259,6 +273,55 @@ class InlinePanel extends Controller {
     });
   }
 
+  undoDelete() {
+    const maxValue = this.maxValue;
+    const total = this.totalValue;
+
+    const canAdd = total < maxValue;
+    const undoDeletes = canAdd ? this.getUndoDeletedQueue() : [];
+    const canUndo = undoDeletes.length > 0;
+    const deletedOn = undoDeletes[0];
+
+    const item = this.deletedTargets.find(
+      (deletedItem) => deletedItem.dataset.deletedOn === deletedOn
+    );
+
+    if (!deletedOn || !canUndo || !item) return;
+
+    const event = this.dispatch('add', {
+      cancelable: true,
+      detail: { index: null, isUndo: true },
+      target: item,
+    });
+
+    if (event.defaultPrevented) return;
+
+    // update targets on item to add 'item' and remove 'deleted'
+
+    const targetAttributeKey = `data-${this.identifier}-target`;
+
+    const targets = new TokenList(
+      item.getAttribute(`data-${this.identifier}-target`)
+    );
+
+    targets.add('item');
+    targets.remove('deleted');
+
+    item.setAttribute(targetAttributeKey, targets.toString());
+
+    this.containerTarget.appendChild(item);
+    item.classList.remove(this.isDeletedClass);
+
+    item.refs = this.getItemRefs(item);
+
+    this.update(() => {
+      this.dispatch('added', {
+        cancelable: false,
+        detail: { item, isUndo: true },
+      });
+    });
+  }
+
   update(afterUpdateFn = null) {
     const minValue = this.minValue;
     const maxValue = this.maxValue;
@@ -266,10 +329,11 @@ class InlinePanel extends Controller {
 
     // update main controller values and state
     this.totalValue = total;
-    const disableAddButton = total >= maxValue;
+    const canAdd = total < maxValue;
+    const canRemove = total > minValue;
 
     this.addButtonTargets.forEach((addButton) => {
-      addButton.disabled = disableAddButton;
+      addButton.disabled = !canAdd;
     });
 
     // update inner input values & button states
@@ -293,7 +357,7 @@ class InlinePanel extends Controller {
       }
 
       if (this.canDeleteValue) {
-        deleteButton.forEach((button) => (button.disabled = total <= minValue));
+        deleteButton.forEach((button) => (button.disabled = !canRemove));
       }
     });
 
@@ -323,6 +387,13 @@ class InlinePanel extends Controller {
           button.disabled = true;
         });
       }
+    });
+
+    const undoDeletes = canAdd ? this.getUndoDeletedQueue() : [];
+    const canUndo = undoDeletes.length > 0;
+
+    this.undoDeleteButtonTargets.forEach((button) => {
+      button.disabled = !canUndo;
     });
 
     afterUpdateFn && afterUpdateFn();
