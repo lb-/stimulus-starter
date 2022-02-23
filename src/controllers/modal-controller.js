@@ -12,9 +12,10 @@ class ModalController extends Controller {
     const modal = this.element;
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('role', 'dialog');
-    modal.removeAttribute('aria-hidden');
     modal.removeAttribute('hidden');
+    modal.removeAttribute('aria-hidden');
     this.createBackdrop();
+    this.scrollLock();
     modal.classList.remove(...this.hiddenClasses);
     modal.classList.add(...this.visibleClasses);
   }
@@ -34,6 +35,14 @@ class ModalController extends Controller {
     });
   }
 
+  scrollLock() {
+    //
+  }
+
+  scrollUnlock() {
+    //
+  }
+
   close() {
     const id = this.element.id;
     const event = this.dispatch('close', { cancelable: true, detail: { id } });
@@ -46,6 +55,7 @@ class ModalController extends Controller {
     modal.removeAttribute('role');
     modal.classList.remove(...this.visibleClasses);
     modal.classList.add(...this.hiddenClasses);
+    this.scrollUnlock();
 
     document.querySelector('[modal-backdrop]').remove();
     this.element.remove();
@@ -53,7 +63,6 @@ class ModalController extends Controller {
 
   disconnect() {
     const id = this.element.id;
-    console.log('disconnect', this.element);
     this.dispatch('closed', {
       cancelable: false,
       target: window.document,
