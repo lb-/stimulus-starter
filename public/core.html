@@ -112,9 +112,12 @@
         <div
           aria-hidden="true"
           class="hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0"
-          data-controller="modal"
+          data-controller="modal focus-trap"
           data-modal-backdrop-class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40"
           data-modal-hidden-class="hidden"
+          data-focus-trap-active-value="true"
+          data-focus-trap-click-outside-deactivates-value="true"
+          data-action="focus-trap:deactivated->modal#close"
           hidden
         >
           <div class="relative px-4 w-full max-w-2xl h-full md:h-auto">
