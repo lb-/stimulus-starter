@@ -20,9 +20,14 @@ export default class extends Controller {
     const type = this.typeValue;
 
     const chance = new Chance(seed);
+    this._chance = chance;
 
     const textContent = chance[type]();
 
     element.textContent = textContent;
+  }
+
+  disconnect() {
+    delete this._chance;
   }
 }
