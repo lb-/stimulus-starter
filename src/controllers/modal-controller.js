@@ -9,15 +9,7 @@ class ModalController extends Controller {
   static targets = ['closeButton', 'title', 'description'];
 
   connect() {
-    const modal = this.element;
-    modal.setAttribute('aria-modal', 'true');
-    modal.setAttribute('role', 'dialog');
-    modal.removeAttribute('hidden');
-    modal.removeAttribute('aria-hidden');
-    this.createBackdrop();
-    this.scrollLock();
-    modal.classList.remove(...this.hiddenClasses);
-    modal.classList.add(...this.visibleClasses);
+    this.open();
   }
 
   createBackdrop() {
@@ -41,6 +33,19 @@ class ModalController extends Controller {
 
   scrollUnlock() {
     //
+  }
+
+  open() {
+    const modal = this.element;
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('role', 'dialog');
+    modal.removeAttribute('hidden');
+    modal.removeAttribute('aria-hidden');
+    this.createBackdrop();
+    this.scrollLock();
+    modal.classList.remove(...this.hiddenClasses);
+    modal.classList.add(...this.visibleClasses);
+    this.dispatch('opened');
   }
 
   close() {
