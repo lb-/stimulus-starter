@@ -12,7 +12,14 @@ export default class extends Controller {
     to: String,
   };
 
-  static targets = ['before', 'during', 'after', 'fromTime', 'toTime'];
+  static targets = [
+    'before',
+    'during',
+    'after',
+    'fromTime',
+    'toTime',
+    'toTimeRelative',
+  ];
 
   connect() {
     this._timer = setInterval(() => {
@@ -42,13 +49,14 @@ export default class extends Controller {
       return AFTER;
     })();
 
-    return { from, to, status };
+    return { from, to, now, status };
   }
 
   setTimeValues() {
-    const { from, to } = this.getTimeData();
+    const { from, to, now } = this.getTimeData();
+    const locale = this.localeValue;
 
-    const formatter = new Intl.DateTimeFormat(this.localeValue, {
+    const formatter = new Intl.DateTimeFormat(locale, {
       dateStyle: 'short',
       timeStyle: 'short',
     });
@@ -61,6 +69,18 @@ export default class extends Controller {
     this.toTimeTargets.forEach((element) => {
       element.setAttribute('datetime', to);
       element.innerText = formatter.format(to);
+    });
+
+    const relativeFormatter = new Intl.RelativeTimeFormat(locale, {
+      numeric: 'auto',
+    });
+
+    this.toTimeRelativeTargets.forEach((element) => {
+      element.setAttribute('datetime', to);
+      element.innerText = relativeFormatter.format(
+        Math.round((to - now) / 1000),
+        'seconds'
+      );
     });
   }
 
@@ -78,11 +98,24 @@ export default class extends Controller {
         element.style.setProperty('display', 'none');
       }
     });
+
+    this.setTimeValues();
+
+    if (status === AFTER) {
+      this.stopTimer();
+    }
+  }
+
+  stopTimer() {
+    const timer = this._timer;
+
+    if (!timer) return;
+
+    clearInterval(timer);
   }
 
   disconnect() {
     // ensure we clean up so the timer is not running if the element gets removed
-
-    clearInterval(this._timer);
+    this.stopTimer();
   }
 }
