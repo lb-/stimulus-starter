@@ -247,8 +247,9 @@ class InlinePanel extends Controller {
     this.update(() => {
       // this.undoMoveValue = ['movedUp', item.refs.idInput[0].value];
       this.dispatch('movedUp', {
+        cancelable: false,
         target: item,
-        detail: { index, cancelable: false },
+        detail: { index },
       });
     });
   }
