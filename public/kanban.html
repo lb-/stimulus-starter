@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <style type="text/tailwindcss">
+      /* Preflight will be injected here */
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+    </style>
+    <script src="bundle.js" async></script>
+  </head>
+  <body>
+    <main>
+      <section
+        class="prose m-5"
+        data-controller="sortable"
+        data-sortable-chosen-class="drop-shadow-2xl"
+        data-sortable-drag-class="rotate-12"
+        data-sortable-ghost-class="opacity-25"
+        data-sortable-animation-value="300"
+        data-sortable-draggable-value=".column"
+        data-sortable-swap-threshold-value="0.65"
+        data-action="sortable:end->sortable#log"
+      >
+        <h1 class="text-3xl font-bold">Sortable (Kanban)</h1>
+        <div
+          class="board flex space-x-2 justify-start"
+          data-sortable-target="sort"
+        >
+          <div class="column">
+            <h3>Column 1</h3>
+            <ul
+              class="w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              data-controller="sortable"
+              data-sortable-chosen-class="drop-shadow-2xl"
+              data-sortable-drag-class="rotate-12"
+              data-sortable-ghost-class="opacity-25"
+              data-sortable-animation-value="150"
+              data-sortable-group-value="group"
+              data-sortable-swap-threshold-value="0.65"
+              data-sortable-target="sort"
+            >
+              <li
+                class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+              >
+                Profile
+              </li>
+              <li
+                class="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600"
+              >
+                Settings
+              </li>
+              <li
+                class="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600"
+              >
+                Messages
+              </li>
+              <li class="py-2 px-4 w-full rounded-b-lg">Download</li>
+            </ul>
+          </div>
+          <div class="column">
+            <h3>Column 2</h3>
+            <ul
+              class="w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              data-controller="sortable"
+              data-sortable-chosen-class="drop-shadow-2xl"
+              data-sortable-drag-class="rotate-12"
+              data-sortable-ghost-class="opacity-25"
+              data-sortable-animation-value="150"
+              data-sortable-group-value="group"
+              data-sortable-swap-threshold-value="0.65"
+              data-sortable-target="sort"
+            >
+              <li
+                class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+              >
+                Profile
+              </li>
+              <li
+                class="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600"
+              >
+                Settings
+              </li>
+              <li
+                class="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600"
+              >
+                Messages
+              </li>
+              <li class="py-2 px-4 w-full rounded-b-lg">Download</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
