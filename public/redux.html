@@ -10,9 +10,22 @@
   <!-- Milligram CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
   <script src="bundle.js" async></script>
-  <script type="application/json" data-controller="store" data-action="dispatch:action@window->store#receive">
-    {"counter":0}
-  </script>
+  <script id="reducer" type="module" data-controller="store" data-store-initial-value='{"counter": 0}'
+    data-action="dispatch:action@window->store#receive">
+
+      const reducer = (state, action) => {
+        console.log('reducer', { state, action });
+
+        if (action.type === 'counter/increment') {
+          return { ...state, counter: state.counter + 1 }
+        }
+
+        return;
+
+      }
+
+      document.getElementById('reducer').reducer = reducer;
+    </script>
 </head>
 
 <body>
