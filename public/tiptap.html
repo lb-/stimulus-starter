@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stimulus - TipTap v2</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <style type="text/tailwindcss">
+      /* Preflight will be injected here */
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+    </style>
+    <style>
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+
+      button.is-active {
+        background: black;
+        color: white;
+      }
+
+      .ProseMirror {
+        padding: 0.5rem 1rem;
+        margin: 1rem 0;
+        border: 1px solid #ccc;
+      }
+    </style>
+    <script src="bundle.js" async></script>
+  </head>
+  <body>
+    <main>
+      <section class="prose m-5">
+        <h1 class="text-3xl font-bold">TipTap</h1>
+        <div
+          data-controller="tip-tap"
+          data-tip-tap-content-value="<p>Hello World! :-)</p>"
+        >
+          <div class="menu flex" data-tip-tap-target="menu">
+            <button
+              data-action="tip-tap#toggleFormat"
+              data-tip-tap-command-param="toggleHeading"
+              data-tip-tap-options-param='{"level":1}''
+              @click="editor.chain().toggleHeading({ level: 1 }).focus().run()"
+              :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+            >
+              H1
+            </button>
+            <button
+              data-action="tip-tap#toggleFormat"
+              data-tip-tap-command-param="toggleBold"
+              @click="editor.chain().toggleBold().focus().run()"
+              :class="{ 'is-active': editor.isActive('bold') }"
+            >
+              Bold
+            </button>
+            <button
+              data-action="tip-tap#toggleFormat"
+              data-tip-tap-command-param="toggleItalic"
+              @click="editor.chain().toggleItalic().focus().run()"
+              :class="{ 'is-active': editor.isActive('italic') }"
+            >
+              Italic
+            </button>
+          </div>
+          <div data-tip-tap-target="element"></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
