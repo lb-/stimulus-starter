@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tables!</title>
+  <link rel="stylesheet" href="styles/bulma.min.css" />
+  <link rel="stylesheet" href="styles/animate.min.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <script src="bundle.js" async></script>
+</head>
+
+<body>
+  <main>
+    <table data-controller="table" data-action="table-action:add@window->table#show">
+      <thead>
+        <tr>
+          <th data-table-target="status"></th>
+        </tr>
+      </thead>
+      <tr data-table-target="row">
+        <td>Item 1</td>
+      </tr>
+      <tr data-table-target="row">
+        <td>Item 2</td>
+      </tr>
+      <tr data-table-target="row">
+        <td>Item 3</td>
+      </tr>
+      <tr data-table-target="row">
+        <td>Item 4</td>
+      </tr>
+    </table>
+    <div>
+      <button data-controller="table-action" data-action="table-action#add"
+        data-table-action-url-param="https://path.to.tables/">
+        Add row
+      </button>
+    </div>
+  </main>
+</body>
+
+</html>

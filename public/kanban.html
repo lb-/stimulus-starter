@@ -11,6 +11,21 @@
       @tailwind utilities;
     </style>
     <script src="bundle.js" async></script>
+    <script type="module">
+      import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+      window.Stimulus = Application.start()
+  
+      Stimulus.register("sortable", class extends Controller {
+  
+        connect() {
+          console.log('sortable 2!');
+        }
+
+        test() {
+          console.log('sortable 2 test');
+        }
+      })
+    </script>
   </head>
   <body>
     <main>
@@ -23,7 +38,7 @@
         data-sortable-animation-value="300"
         data-sortable-draggable-value=".column"
         data-sortable-swap-threshold-value="0.65"
-        data-action="sortable:end->sortable#log"
+        data-action="sortable:end->sortable#log click->sortable#test"
       >
         <h1 class="text-3xl font-bold">Sortable (Kanban)</h1>
         <div

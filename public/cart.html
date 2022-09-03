@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <style type="text/tailwindcss">
+    /* Preflight will be injected here */
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+    </style>
+  <script src="bundle.js" async></script>
+</head>
+
+<body>
+  <main>
+    <section class="prose m-5">
+      <form class="cart" data-controller='cart' data-action="change->cart#updateTotals">
+        <div class="cart-item">
+          <span class='unit-price' data-price-for="cart-item-1">20</span>
+          x
+          <input type="number" name="quantity" value="1" id="cart-item-1">
+          =
+          <output class="total-price" for="cart-item-1" name="item-total">20</output>
+        </div>
+        <div class="cart-item">
+          <span class='unit-price' data-price-for="cart-item-2">10</span>
+          x
+          <input type="number" name="quantity" value="1" id="cart-item-2">
+          =
+          <output class="total-price" for="cart-item-2" name="item-total">10</output>
+        </div>
+        <div class="cart-total">
+          Total: <span data-cart-target="total">30</span>
+        </div>
+      </form>
+    </section>
+  </main>
+</body>
+
+</html>

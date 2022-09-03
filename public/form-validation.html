@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script src="bundle.js" async></script>
+</head>
+
+<body>
+  <form>
+    <div class="mt-2 mx-1">
+      <label class="block text-sm font-medium text-gray-700" for="validateCode">Discount Code</label>
+      <div class="mt-1">
+        <input type="text" name="discount_code" id="validateCode" class="all-the-100-classes"
+          data-controller="validate-discount" data-action="validate-discount#validate keyup->validate-discount#validate"
+          data-validate-discount-valid-class="bg-error" data-validate-discount-invalid-class="bg-success">
+      </div>
+    </div>
+  </form>
+</body>
+
+</html>

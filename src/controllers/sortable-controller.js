@@ -11,6 +11,19 @@ export default class extends Controller {
 
   static targets = ['sort'];
 
+  static get shouldLoad() {
+    // what I want is access to the identifier
+    // this is the controller prototype
+    console.log('shouldLoad', this);
+    document.addEventListener('click', console.log);
+    // debugger;
+    // return true;
+    Promise.resolve({}).then(() => {
+      console.log('this?', this);
+    });
+    return true;
+  }
+
   static values = {
     animation: { default: 0, type: Number },
     disabled: { default: false, type: Boolean },
