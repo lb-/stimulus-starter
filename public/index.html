@@ -13,6 +13,30 @@
     <main>
       <h1>Stimulus JS POC</h1>
       <section
+        style="border:1px solid red; padding: 2rem;"
+        data-controller="idea"
+        data-action="click@window->idea#action:outside"
+        data-idea="visible?"
+      >
+        <h2>Stimulus outside click</h2>
+        <div >
+          <button type="button">A button</button>
+          <label for="checkbox">Checkbox label</label>
+          <input type="checkbox" id="checkbox" />
+          <input
+            type="text" 
+            data-action="keyup->idea#search:limit"
+            data-limit-delay="500"
+            data-debounce="500"
+          >
+          <button
+            type="button" 
+            data-action="idea#action:alt:meta"
+          >Click with alt only</button>
+        </div>
+        <ul data-idea-target="log"></ul>
+      </section>
+      <section
         class="c-bulk-actions"
         id="bulk-actions-controller-demo"
         data-controller="bulk-actions cloak"

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Hello Stimulus!</title>
+    <link
+      rel="stylesheet"
+      href="styles/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="styles/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="styles/main.css"
+    />
+    <script
+      src="bundle.js"
+      async
+    ></script>
+  </head>
+  <body>
+    <main>
+      <h1>Big Menu</h1>
+      <div
+        data-controller="search-bar"
+        data-search-bar-hidden-class="hidden"
+      >
+        <div class="searchbar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input
+            type="search"
+            id="search"
+            placeholder="Search menu"
+            data-action="input->search-bar#search"
+          />
+        </div>
+        <div
+          class="menu-card"
+          data-search-bar-target="menuCard"
+        >
+          <h4 class="item-name">Greek Village Salad with Feta</h4>
+          <p class="item-details">
+            Tomato, cucumber, green pepper, red onion, feta in a rich salad
+          </p>
+          <p class="item-price">£10.00</p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

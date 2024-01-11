@@ -8,3 +8,5 @@ application.debug = true;
 const context = require.context('./controllers', true, /(?<!\.test)\.js$/);
 
 application.load(definitionsFromContext(context));
+
+window.Stimulus = application;
