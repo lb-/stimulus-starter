@@ -9,7 +9,7 @@
   <body>
     <main>
       <h3>Character</h3>
-      <form>
+      <form data-controller="ranger" data-action="change->ranger#calculate">
         <fieldset>
           <legend>Stats</legend>
           <div>
@@ -31,7 +31,7 @@
         </fieldset>
         <div>
           <span id="total-label">Total:</span>
-          <output name="result" for="agility defense magic power" aria-describedby="total-label">24</output>
+          <output name="result" for="agility defense magic power" aria-describedby="total-label" data-ranger-target="total">24</output>
         </div>
       </form>
     </main>
