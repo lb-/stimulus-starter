@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Bulma!</title>
+    <script src="bundle.js" async></script>
+  </head>
+  <body>
+    <main>
+      <h3>Character</h3>
+      <form>
+        <fieldset>
+          <legend>Stats</legend>
+          <div>
+            <input type="range" id="magic" name="magic" min="0" max="12" value="6" step=""1 />
+            <label for="magic">Magic</label>
+          </div>
+          <div>
+            <input type="range" id="power" name="power" min="0" max="12" value="6" step=""1 />
+            <label for="power">Power</label>
+          </div>
+          <div>
+            <input type="range" id="defense" name="defense" min="0" max="12" value="6" step=""1 />
+            <label for="defense">Defense</label>
+          </div>
+          <div>
+            <input type="range" id="agility" name="agility" min="0" max="12" value="6" step=""1 />
+            <label for="agility">Agility</label>
+          </div>
+        </fieldset>
+        <div>
+          <span id="total-label">Total:</span>
+          <output name="result" for="agility defense magic power" aria-describedby="total-label">24</output>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
